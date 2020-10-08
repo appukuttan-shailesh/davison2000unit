@@ -19,17 +19,17 @@ class Traces:
 
     def save_file(self):
         size = len(self.score.test.traces)
-        fig, axs = plt.subplots(size, figsize=(20, 7*size))
+        fig, axs = plt.subplots(size, figsize=(20, 7*size), squeeze=False)
 
         for ind, trace in enumerate(self.score.test.traces):
-            axs[ind].plot(trace["t"], trace["v"], label=str(trace["stim"])+" $\mu$A/cm$^2$")
-            axs[ind].legend(loc="best", prop={'size': 14})
+            axs[ind ,0].plot(trace["t"], trace["v"], label=str(trace["stim"])+" $\mu$A/cm$^2$")
+            axs[ind, 0].legend(loc="best", prop={'size': 14})
             xlabel = self.params["xlabel"] if "xlabel" in self.params else None
             if xlabel:
-                axs[ind].set_xlabel(xlabel, fontsize=18)
+                axs[ind, 0].set_xlabel(xlabel, fontsize=18)
             ylabel = self.params["ylabel"] if "ylabel" in self.params else None
             if ylabel:
-                axs[ind].set_ylabel(ylabel, fontsize=18)
+                axs[ind, 0].set_ylabel(ylabel, fontsize=18)
 
         title = self.params["title"] if "title" in self.params else "Frequency"
         fig.suptitle(title, fontsize=20, fontweight='bold', y=1.0075)

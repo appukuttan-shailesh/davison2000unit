@@ -2,6 +2,7 @@ import os
 import efel
 import json
 import numpy
+import timeit
 import sciunit
 import davison2000unit.capabilities as cap
 import davison2000unit.plots as plots
@@ -55,9 +56,12 @@ class SomaFirstSpikeLatency(sciunit.Test):
         model.inject_step_current_soma(current={'delay': stim_start,
                                                 'duration': stim_dur,
                                                 'amplitude': stim_amp})
+        start = timeit.default_timer()
         trace = model.get_membrane_potential_soma_eFEL_format(tstop=stim_start+stim_dur,
                                                               start=stim_start,
                                                               stop=stim_start+stim_dur)
+        stop = timeit.default_timer()
+        self.run_times[str(stim)] = stop - start
         self.traces.append({"stim" : stim_amp, 
                             "t" : trace["T"], 
                             "v" : trace["V"]})
@@ -67,6 +71,7 @@ class SomaFirstSpikeLatency(sciunit.Test):
 
     def generate_prediction(self, model: sciunit.Model) -> Dict[float, float]:
         self.traces = []
+        self.run_times = {}
         efel.reset()
         stim_list = list(map(float, self.observation.keys()))
         run_stim_ = functools.partial(self.run_stim, model)
@@ -106,13 +111,14 @@ class SomaFirstSpikeLatency(sciunit.Test):
             os.makedirs(self.target_dir)
 
         # create relevant output files
-        # 1. JSON data: observation, prediction, score
+        # 1. JSON data: observation, prediction, score, run_times
         validation_data = {
             "obs_label": "Full model",
             "pred_label": score.model.name,
             "observation": observation,
             "prediction": prediction,
-            "score": score.score
+            "score": score.score,
+            "run_times" : self.run_times
         }
         with open(os.path.join(self.target_dir, 'soma_stim_latency.json'), 'w') as f:
             json.dump(validation_data, f, indent=4)
