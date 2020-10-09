@@ -34,7 +34,6 @@ class Traces:
         title = self.params["title"] if "title" in self.params else "Frequency"
         fig.suptitle(title, fontsize=20, fontweight='bold', y=1.0075)
 
-
         fig.tight_layout(h_pad=5)
         filepath = os.path.join(self.score.test.target_dir, self.filename + '.pdf')
         plt.savefig(filepath, dpi=600, bbox_inches = "tight")

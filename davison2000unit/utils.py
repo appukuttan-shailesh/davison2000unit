@@ -484,7 +484,7 @@ def create_fig7_runtimes(base_dir=None, model_list=[]):
     axs[1, 1].legend(loc="best", prop={'size': 14})
 
     fig.tight_layout(h_pad=5, w_pad=5)
-    filepath = os.path.join(os.path.abspath(base_dir), 'figure_runtimes.pdf')
+    filepath = os.path.join(os.path.abspath(base_dir), 'figure7_runtimes.pdf')
     plt.savefig(filepath, dpi=600, bbox_inches= "tight")
     return filepath
 
@@ -539,35 +539,36 @@ def create_fig_runtimes(base_dir=None, model_list=[]):
     fig = plt.figure(figsize=(10, 7))
     ax = plt.gca()
 
-    json_run_time_labels = []
-    json_run_time_scores = []
-    json_run_time_colors = []
+    list_run_time_labels = []
+    list_run_time_scores = []
+    list_run_time_colors = []
     if flag_2C:
         with open(os.path.join(os.path.abspath(base_dir), "Run Time", "2 Compartments", "run_time.json")) as f:
             json_run_time_2C = json.load(f)
-        json_run_time_labels.append(json_run_time_2C["pred_label"])
-        json_run_time_scores.append(json_run_time_2C["score"])
-        json_run_time_colors.append("m")
+        list_run_time_labels.append(json_run_time_2C["pred_label"])
+        list_run_time_scores.append(json_run_time_2C["score"])
+        list_run_time_colors.append("m")
     if flag_3C:
         with open(os.path.join(os.path.abspath(base_dir), "Run Time", "3 Compartments", "run_time.json")) as f:
             json_run_time_3C = json.load(f)
-        json_run_time_labels.append(json_run_time_3C["pred_label"])
-        json_run_time_scores.append(json_run_time_3C["score"])
-        json_run_time_colors.append("g")
+        list_run_time_labels.append(json_run_time_3C["pred_label"])
+        list_run_time_scores.append(json_run_time_3C["score"])
+        list_run_time_colors.append("g")
     if flag_4C:
         with open(os.path.join(os.path.abspath(base_dir), "Run Time", "4 Compartments", "run_time.json")) as f:
             json_run_time_4C = json.load(f)
-        json_run_time_labels.append(json_run_time_4C["pred_label"])
-        json_run_time_scores.append(json_run_time_4C["score"])
-        json_run_time_colors.append("r")
+        list_run_time_labels.append(json_run_time_4C["pred_label"])
+        list_run_time_scores.append(json_run_time_4C["score"])
+        list_run_time_colors.append("r")
 
-    ax.bar(json_run_time_labels, json_run_time_scores, width = 0.5, color = json_run_time_colors)
-    for i, v in enumerate(json_run_time_scores):
-        ax.text(i - 0.05, v + 0.05 , str(round(v, 2)), color=json_run_time_colors[i], fontsize=14, fontweight='bold')
+    ax.bar(list_run_time_labels, list_run_time_scores, width = 0.5, color = list_run_time_colors)
+    for i, v in enumerate(list_run_time_scores):
+        ax.text(i - 0.05, v + 0.05 , str(round(v, 2)), color=list_run_time_colors[i], fontsize=14, fontweight='bold')
    
     ax.set_title("Compare Run Times", {"fontsize": 20, "fontweight" : "bold"}, pad=25)
-    ax.set_ylabel("Model", fontsize=18)
+    ax.set_xlabel("Model", fontsize=18)
     ax.set_ylabel("Real time (s)", fontsize=18)
+    ax.set_ylim([0.0, round(max(list_run_time_scores)*1.1)])
     ax.tick_params(axis='both', which='major', labelsize=14)
 
     fig.tight_layout(h_pad=5, w_pad=5)

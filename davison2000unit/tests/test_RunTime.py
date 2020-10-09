@@ -99,7 +99,11 @@ class RunTime(sciunit.Test):
         with open(os.path.join(self.target_dir, 'run_time.json'), 'w') as f:
             json.dump(validation_data, f, indent=4)
 
-        # 2. Vm trace as pdf: somatic Vm trace during simulation
+        # 2. JSON data: save Vm vs t trace
+        with open(os.path.join(self.target_dir, 'run_time_trace.json'), 'w') as f:
+            json.dump(self.traces, f, indent=4)
+
+        # 3. Vm trace as pdf: somatic Vm trace during simulation
         params = {
             "title": "Somatic Vm: Stimulus at Soma",
             "xlabel": "Time (ms)",

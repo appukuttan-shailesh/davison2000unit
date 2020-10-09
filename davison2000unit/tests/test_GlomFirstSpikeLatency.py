@@ -142,7 +142,11 @@ class GlomFirstSpikeLatency(sciunit.Test):
         file_log_plot = log_plot.save_file()
         self.figures.append(file_log_plot)
 
-        # 3. Vm traces as pdf: superimpose somatic Vm traces for all stimuli
+        # 3. JSON data: save Vm vs t traces
+        with open(os.path.join(self.target_dir, 'glom_stim_latency_traces.json'), 'w') as f:
+            json.dump(self.traces, f, indent=4)
+
+        # 4. Vm traces as pdf: superimpose somatic Vm traces for all stimuli
         params = {
             "title": "Somatic Vm: Stimulus at Glomerulus",
             "xlabel": "Time (ms)",
