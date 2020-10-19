@@ -51,7 +51,7 @@ class GlomFirstSpikeLatency(sciunit.Test):
 
     def run_stim(self, model: sciunit.Model, stim: float):
         stim_start = 50.0   # ms
-        stim_dur = 150.0    # ms
+        stim_dur = 250.0    # ms
         stim_amp = stim     # nA
         model.inject_step_current_glomerulus(current={'delay': stim_start,
                                                       'duration': stim_dur,
@@ -65,8 +65,11 @@ class GlomFirstSpikeLatency(sciunit.Test):
         self.traces.append({"stim" : stim_amp, 
                             "t" : trace["T"], 
                             "v" : trace["V"]})
-        result = efel.getFeatureValues([trace], ["time_to_first_spike"])[
-            0]["time_to_first_spike"][0] # (ms)
+        try:
+            result = efel.getFeatureValues([trace], ["time_to_first_spike"])[
+                0]["time_to_first_spike"][0] # (ms)
+        except:
+            result = float("nan")
         return result
 
     def generate_prediction(self, model: sciunit.Model) -> Dict[float, float]:

@@ -1,5 +1,4 @@
 import os
-import efel
 import json
 import numpy
 import timeit
@@ -64,7 +63,6 @@ class RunTime(sciunit.Test):
 
     def generate_prediction(self, model: sciunit.Model) -> float:
         self.traces = []
-        efel.reset()
 
         stim_inj = 0.4
         prediction = self.run_stim(model, stim_inj)

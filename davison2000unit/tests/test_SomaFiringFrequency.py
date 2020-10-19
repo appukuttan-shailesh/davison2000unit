@@ -65,8 +65,11 @@ class SomaFiringFrequency(sciunit.Test):
         self.traces.append({"stim" : stim_amp, 
                             "t" : trace["T"], 
                             "v" : trace["V"]})
-        result = efel.getFeatureValues([trace], ["Spikecount_stimint"])[
-            0]["Spikecount_stimint"][0] / (stim_dur * 1e-3)  # (Hz)
+        try:
+            result = efel.getFeatureValues([trace], ["Spikecount_stimint"])[
+                0]["Spikecount_stimint"][0] / (stim_dur * 1e-3)  # (Hz)
+        except:
+            result = float("nan")
         return result
 
     def generate_prediction(self, model: sciunit.Model) -> Dict[float, float]:

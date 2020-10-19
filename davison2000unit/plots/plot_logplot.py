@@ -21,10 +21,10 @@ class LogPlot:
         fig = plt.figure(figsize=(10, 7))
 
         obs_label = self.params["obs_label"] if "obs_label" in self.params else "observation"
-        plt.loglog(list(self.score.observation.keys()), list(
-            self.score.observation.values()), 'b', marker='s', markersize=8, label=obs_label)
+        plt.loglog(list(map(float, self.score.observation.keys())), list(
+            self.score.observation.values()), 'b', marker='s', markersize=8, label="Full Model (Davison et al., 2000)")
         pred_label = self.params["pred_label"] if "pred_label" in self.params else "prediction"
-        plt.loglog(list(self.score.prediction.keys()), list(
+        plt.loglog(list(map(float, self.score.observation.keys())), list(
             self.score.prediction.values()), 'r', marker='o', markersize=8, label=pred_label)
 
         title = self.params["title"] if "title" in self.params else "Frequency"
