@@ -125,6 +125,7 @@ class GlomFiringFrequency(sciunit.Test):
         }
         with open(os.path.join(self.target_dir, 'glom_stim_freq.json'), 'w') as f:
             json.dump(validation_data, f, indent=4)
+        self.figures.append(os.path.join(self.target_dir, 'glom_stim_freq.json'))
 
         # 2. Log plot as pdf: observation vs prediction
         params = {
@@ -148,6 +149,7 @@ class GlomFiringFrequency(sciunit.Test):
         # 3. JSON data: save Vm vs t traces
         with open(os.path.join(self.target_dir, 'glom_stim_freq_traces.json'), 'w') as f:
             json.dump(self.traces, f, indent=4)
+        self.figures.append(os.path.join(self.target_dir, 'glom_stim_freq_traces.json'))
 
         # 4. Vm traces as pdf: superimpose somatic Vm traces for all stimuli
         params = {
